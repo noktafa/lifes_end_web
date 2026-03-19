@@ -1,0 +1,272 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="800" height="400">
+  <defs>
+    <!-- Background grid pattern -->
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#151520" stroke-width="0.5"/>
+    </pattern>
+
+    <!-- Neon green glow filter -->
+    <filter id="glowGreen" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-color="#00ff00" flood-opacity="0.6" result="color"/>
+      <feComposite in="color" in2="blur" operator="in" result="colorBlur"/>
+      <feMerge>
+        <feMergeNode in="colorBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Cyan streak glow -->
+    <filter id="glowCyan" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feFlood flood-color="#00ccff" flood-opacity="0.7" result="color"/>
+      <feComposite in="color" in2="blur" operator="in" result="colorBlur"/>
+      <feMerge>
+        <feMergeNode in="colorBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Strong neon glow for title -->
+    <filter id="glowTitle" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="blur1"/>
+      <feFlood flood-color="#00ccff" flood-opacity="0.5" result="color1"/>
+      <feComposite in="color1" in2="blur1" operator="in" result="glow1"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur2"/>
+      <feFlood flood-color="#00ff00" flood-opacity="0.3" result="color2"/>
+      <feComposite in="color2" in2="blur2" operator="in" result="glow2"/>
+      <feMerge>
+        <feMergeNode in="glow1"/>
+        <feMergeNode in="glow2"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Dissolving/fading cell filter -->
+    <filter id="dissolve" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="3" seed="42" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="8" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+
+    <!-- Heavy dissolve for dying cells -->
+    <filter id="dissolveHeavy" x="-30%" y="-30%" width="160%" height="160%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.08" numOctaves="4" seed="17" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="14" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+
+    <!-- Crack texture overlay -->
+    <filter id="cracked">
+      <feTurbulence type="fractalNoise" baseFrequency="0.15" numOctaves="5" seed="7" result="noise"/>
+      <feColorMatrix type="luminanceToAlpha" in="noise" result="noiseAlpha"/>
+      <feComponentTransfer in="noiseAlpha" result="threshold">
+        <feFuncA type="discrete" tableValues="0 0 0 0 1 1 0 0 0 0"/>
+      </feComponentTransfer>
+      <feComposite in="SourceGraphic" in2="threshold" operator="out"/>
+    </filter>
+
+    <!-- Radial gradient for vignette -->
+    <radialGradient id="vignette" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#0a0a0f" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#0a0a0f" stop-opacity="0.8"/>
+    </radialGradient>
+
+    <!-- Linear gradient for cyan streak -->
+    <linearGradient id="streakGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00ccff" stop-opacity="0"/>
+      <stop offset="15%" stop-color="#00ccff" stop-opacity="0.3"/>
+      <stop offset="50%" stop-color="#00ffff" stop-opacity="1"/>
+      <stop offset="85%" stop-color="#00ccff" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#00ccff" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Gradient for title text -->
+    <linearGradient id="titleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="40%" stop-color="#ccffee"/>
+      <stop offset="100%" stop-color="#00ccff"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Dark background -->
+  <rect width="800" height="400" fill="#0a0a0f"/>
+
+  <!-- Grid pattern -->
+  <rect width="800" height="400" fill="url(#grid)" opacity="0.6"/>
+
+  <!-- === GAME OF LIFE CELLS (scattered around title) === -->
+
+  <!-- TOP-LEFT CLUSTER: Intact healthy cells -->
+  <g filter="url(#glowGreen)">
+    <!-- Alive cells - top left -->
+    <rect x="60" y="70" width="16" height="16" rx="2" fill="#00ff00" opacity="0.9"/>
+    <rect x="80" y="70" width="16" height="16" rx="2" fill="#00ff00" opacity="0.85"/>
+    <rect x="60" y="90" width="16" height="16" rx="2" fill="#00ff00" opacity="0.9"/>
+    <rect x="80" y="90" width="16" height="16" rx="2" fill="#00ff00" opacity="0.7"/>
+    <rect x="100" y="90" width="16" height="16" rx="2" fill="#00ff00" opacity="0.8"/>
+    <rect x="80" y="110" width="16" height="16" rx="2" fill="#00ff00" opacity="0.85"/>
+    <rect x="100" y="110" width="16" height="16" rx="2" fill="#00ff00" opacity="0.6"/>
+    <rect x="100" y="70" width="16" height="16" rx="2" fill="#00ff00" opacity="0.5"/>
+
+    <!-- Alive cells - top right cluster -->
+    <rect x="660" y="60" width="16" height="16" rx="2" fill="#00ff00" opacity="0.9"/>
+    <rect x="680" y="60" width="16" height="16" rx="2" fill="#00ff00" opacity="0.85"/>
+    <rect x="700" y="60" width="16" height="16" rx="2" fill="#00ff00" opacity="0.75"/>
+    <rect x="660" y="80" width="16" height="16" rx="2" fill="#00ff00" opacity="0.8"/>
+    <rect x="700" y="80" width="16" height="16" rx="2" fill="#00ff00" opacity="0.9"/>
+    <rect x="680" y="100" width="16" height="16" rx="2" fill="#00ff00" opacity="0.7"/>
+    <rect x="720" y="80" width="16" height="16" rx="2" fill="#00ff00" opacity="0.6"/>
+
+    <!-- Bottom left alive cluster -->
+    <rect x="40" y="280" width="16" height="16" rx="2" fill="#00ff00" opacity="0.8"/>
+    <rect x="60" y="280" width="16" height="16" rx="2" fill="#00ff00" opacity="0.9"/>
+    <rect x="40" y="300" width="16" height="16" rx="2" fill="#00ff00" opacity="0.75"/>
+    <rect x="60" y="300" width="16" height="16" rx="2" fill="#00ff00" opacity="0.85"/>
+    <rect x="80" y="300" width="16" height="16" rx="2" fill="#00ff00" opacity="0.6"/>
+
+    <!-- Bottom right alive cluster -->
+    <rect x="700" y="290" width="16" height="16" rx="2" fill="#00ff00" opacity="0.9"/>
+    <rect x="720" y="290" width="16" height="16" rx="2" fill="#00ff00" opacity="0.8"/>
+    <rect x="720" y="310" width="16" height="16" rx="2" fill="#00ff00" opacity="0.85"/>
+    <rect x="740" y="310" width="16" height="16" rx="2" fill="#00ff00" opacity="0.7"/>
+  </g>
+
+  <!-- CRACKING / DAMAGED CELLS near the streak path -->
+  <g filter="url(#dissolve)">
+    <!-- Damaged cells - left of center -->
+    <rect x="170" y="175" width="16" height="16" rx="2" fill="#00ff00" opacity="0.5"/>
+    <rect x="190" y="175" width="16" height="16" rx="2" fill="#00dd00" opacity="0.35"/>
+    <rect x="170" y="195" width="16" height="16" rx="2" fill="#00bb00" opacity="0.4"/>
+    <rect x="210" y="185" width="16" height="16" rx="2" fill="#00ff00" opacity="0.3"/>
+
+    <!-- Damaged cells - right of center -->
+    <rect x="590" y="180" width="16" height="16" rx="2" fill="#00ff00" opacity="0.45"/>
+    <rect x="610" y="180" width="16" height="16" rx="2" fill="#00dd00" opacity="0.3"/>
+    <rect x="590" y="200" width="16" height="16" rx="2" fill="#00bb00" opacity="0.35"/>
+    <rect x="630" y="190" width="16" height="16" rx="2" fill="#00ff00" opacity="0.25"/>
+  </g>
+
+  <!-- HEAVILY DISSOLVING / DYING CELLS right on the streak -->
+  <g filter="url(#dissolveHeavy)">
+    <rect x="250" y="188" width="16" height="16" rx="2" fill="#009900" opacity="0.3"/>
+    <rect x="310" y="192" width="16" height="16" rx="2" fill="#007700" opacity="0.2"/>
+    <rect x="480" y="186" width="16" height="16" rx="2" fill="#009900" opacity="0.25"/>
+    <rect x="540" y="190" width="16" height="16" rx="2" fill="#007700" opacity="0.15"/>
+  </g>
+
+  <!-- CRACKED CELLS with crack texture -->
+  <g filter="url(#cracked)">
+    <rect x="140" y="155" width="16" height="16" rx="2" fill="#00ee00" opacity="0.6"/>
+    <rect x="230" y="170" width="16" height="16" rx="2" fill="#00cc00" opacity="0.45"/>
+    <rect x="560" y="175" width="16" height="16" rx="2" fill="#00ee00" opacity="0.55"/>
+    <rect x="640" y="165" width="16" height="16" rx="2" fill="#00cc00" opacity="0.5"/>
+  </g>
+
+  <!-- Cell debris / particles (tiny scattered fragments) -->
+  <g opacity="0.4">
+    <rect x="270" y="183" width="4" height="4" fill="#00ff00" opacity="0.3"/>
+    <rect x="285" y="198" width="3" height="3" fill="#00dd00" opacity="0.2"/>
+    <rect x="320" y="180" width="5" height="3" fill="#00ff00" opacity="0.25"/>
+    <rect x="340" y="200" width="3" height="5" fill="#009900" opacity="0.15"/>
+    <rect x="460" y="182" width="4" height="4" fill="#00ff00" opacity="0.2"/>
+    <rect x="500" y="198" width="3" height="3" fill="#00dd00" opacity="0.15"/>
+    <rect x="520" y="185" width="5" height="3" fill="#009900" opacity="0.2"/>
+    <rect x="555" y="195" width="3" height="5" fill="#007700" opacity="0.1"/>
+  </g>
+
+  <!-- === CYAN STREAK (player ship trail) === -->
+  <!-- Main energy streak cutting through the middle -->
+  <g filter="url(#glowCyan)">
+    <!-- Core streak line -->
+    <line x1="80" y1="210" x2="720" y2="185" stroke="url(#streakGrad)" stroke-width="3" stroke-linecap="round"/>
+
+    <!-- Brighter center section -->
+    <line x1="200" y1="205" x2="600" y2="188" stroke="#00ccff" stroke-width="2" opacity="0.8" stroke-linecap="round"/>
+
+    <!-- Ship indicator (small diamond/arrow at the leading edge) -->
+    <polygon points="720,185 710,179 712,185 710,191" fill="#00ffff" opacity="0.9"/>
+
+    <!-- Streak energy trails -->
+    <line x1="150" y1="207" x2="350" y2="199" stroke="#00ccff" stroke-width="1" opacity="0.3" stroke-linecap="round"/>
+    <line x1="120" y1="215" x2="280" y2="206" stroke="#00ccff" stroke-width="0.8" opacity="0.2" stroke-linecap="round"/>
+    <line x1="400" y1="196" x2="650" y2="187" stroke="#00ccff" stroke-width="1" opacity="0.3" stroke-linecap="round"/>
+    <line x1="500" y1="200" x2="700" y2="190" stroke="#00ccff" stroke-width="0.8" opacity="0.2" stroke-linecap="round"/>
+  </g>
+
+  <!-- Impact sparks where streak meets cells -->
+  <g filter="url(#glowCyan)" opacity="0.7">
+    <circle cx="260" cy="195" r="2" fill="#00ffff"/>
+    <circle cx="320" cy="193" r="1.5" fill="#00ffff"/>
+    <circle cx="490" cy="189" r="2" fill="#00ffff"/>
+    <circle cx="545" cy="188" r="1.5" fill="#00ffff"/>
+    <!-- Small spark lines -->
+    <line x1="258" y1="192" x2="252" y2="185" stroke="#00ffff" stroke-width="0.8" opacity="0.6"/>
+    <line x1="262" y1="193" x2="268" y2="186" stroke="#00ffff" stroke-width="0.8" opacity="0.5"/>
+    <line x1="488" y1="187" x2="483" y2="180" stroke="#00ffff" stroke-width="0.8" opacity="0.6"/>
+    <line x1="492" y1="188" x2="498" y2="181" stroke="#00ffff" stroke-width="0.8" opacity="0.5"/>
+  </g>
+
+  <!-- === TITLE TEXT === -->
+  <!-- Shadow / depth layer -->
+  <text x="400" y="210" text-anchor="middle" font-family="'Segoe UI', 'Arial Black', Impact, sans-serif" font-size="88" font-weight="900" letter-spacing="12" fill="#001a0d" opacity="0.5" transform="translate(3,3)">
+    LIFE'S END
+  </text>
+
+  <!-- Main title with glow -->
+  <g filter="url(#glowTitle)">
+    <text x="400" y="210" text-anchor="middle" font-family="'Segoe UI', 'Arial Black', Impact, sans-serif" font-size="88" font-weight="900" letter-spacing="12" fill="url(#titleGrad)">
+      LIFE'S END
+    </text>
+  </g>
+
+  <!-- Thin highlight stroke on title -->
+  <text x="400" y="210" text-anchor="middle" font-family="'Segoe UI', 'Arial Black', Impact, sans-serif" font-size="88" font-weight="900" letter-spacing="12" fill="none" stroke="#00ccff" stroke-width="0.5" opacity="0.4">
+    LIFE'S END
+  </text>
+
+  <!-- Subtitle -->
+  <text x="400" y="250" text-anchor="middle" font-family="'Segoe UI', 'Courier New', monospace" font-size="14" font-weight="400" letter-spacing="8" fill="#00ccff" opacity="0.5">
+    DESTROY THE SIMULATION
+  </text>
+
+  <!-- Scan line effect (subtle horizontal lines) -->
+  <g opacity="0.03">
+    <line x1="0" y1="2" x2="800" y2="2" stroke="#ffffff" stroke-width="1"/>
+    <line x1="0" y1="6" x2="800" y2="6" stroke="#ffffff" stroke-width="1"/>
+    <line x1="0" y1="10" x2="800" y2="10" stroke="#ffffff" stroke-width="1"/>
+    <line x1="0" y1="14" x2="800" y2="14" stroke="#ffffff" stroke-width="1"/>
+    <line x1="0" y1="18" x2="800" y2="18" stroke="#ffffff" stroke-width="1"/>
+    <line x1="0" y1="22" x2="800" y2="22" stroke="#ffffff" stroke-width="1"/>
+    <line x1="0" y1="26" x2="800" y2="26" stroke="#ffffff" stroke-width="1"/>
+    <line x1="0" y1="30" x2="800" y2="30" stroke="#ffffff" stroke-width="1"/>
+  </g>
+  <!-- Repeating scanlines via pattern would be cleaner but keeping it simple -->
+  <defs>
+    <pattern id="scanlines" width="4" height="4" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="800" y2="0" stroke="#ffffff" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="400" fill="url(#scanlines)" opacity="0.025"/>
+
+  <!-- Vignette overlay -->
+  <rect width="800" height="400" fill="url(#vignette)"/>
+
+  <!-- Corner accents (cyberpunk UI frame hints) -->
+  <g stroke="#00ccff" stroke-width="1.5" opacity="0.25" fill="none">
+    <!-- Top-left corner -->
+    <polyline points="5,30 5,5 30,5"/>
+    <!-- Top-right corner -->
+    <polyline points="770,5 795,5 795,30"/>
+    <!-- Bottom-left corner -->
+    <polyline points="5,370 5,395 30,395"/>
+    <!-- Bottom-right corner -->
+    <polyline points="770,395 795,395 795,370"/>
+  </g>
+
+  <!-- Small decorative data lines -->
+  <g fill="#00ccff" opacity="0.15" font-family="'Courier New', monospace" font-size="8">
+    <text x="15" y="385">SYS://ANTI-LIFE v0.1</text>
+    <text x="650" y="385">CELLS: TERMINATED</text>
+    <text x="15" y="20">GOL::PURGE_ACTIVE</text>
+    <text x="680" y="20">GRID: 800x400</text>
+  </g>
+</svg>
